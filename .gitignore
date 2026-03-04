@@ -1,0 +1,21 @@
+# R session and local environment
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+TimeSeries/
+
+# VS Code local settings
+.vscode/
+
+# Generated plots and outputs
+Rplots.pdf
+Rplots1.pdf
+*.png
+
+# Office temp files
+~$*
+
+# OS files
+Thumbs.db
+.DS_Store
