@@ -186,7 +186,7 @@ if (length(missing_files) > 0) {
     paste(
       "Missing required input files in index_data/:",
       paste(missing_files, collapse = ", "),
-      "\nAdd the CSV files locally before running trial_rough.R."
+      "\nAdd the CSV files locally before running sector_volatility_analysis.R."
     )
   )
 }

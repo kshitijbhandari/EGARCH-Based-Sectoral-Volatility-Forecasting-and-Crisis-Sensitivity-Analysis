@@ -1,6 +1,6 @@
 # Time Series Forecasting Project
 
-This project analyzes Indian equity sector indices using classical time-series methods and volatility models in R. The main script, `trial_rough.R`, studies monthly return behavior and daily volatility for five sector indices:
+This project analyzes Indian equity sector indices using classical time-series methods and volatility models in R. The main script, `sector_volatility_analysis.R`, studies monthly return behavior and daily volatility for five sector indices:
 
 - NIFTY BANK
 - NIFTY IT
@@ -27,7 +27,7 @@ The analysis is organized in stages:
 
 ## Main file
 
-- `trial_rough.R`: full end-to-end analysis script.
+- `sector_volatility_analysis.R`: full end-to-end analysis script.
 
 ## Data
 
@@ -67,10 +67,10 @@ install.packages(c(
 
 ## How to run
 
-Open `trial_rough.R` in RStudio or run it from an R session:
+Open `sector_volatility_analysis.R` in RStudio or run it from an R session:
 
 ```r
-source("trial_rough.R")
+source("sector_volatility_analysis.R")
 ```
 
 Before running:
@@ -99,7 +99,7 @@ Running the script produces:
 
 ## Functions included
 
-Important helper functions in `trial_rough.R`:
+Important helper functions in `sector_volatility_analysis.R`:
 
 - `analyze_index_ts()`
 - `get_roll_vol()`
