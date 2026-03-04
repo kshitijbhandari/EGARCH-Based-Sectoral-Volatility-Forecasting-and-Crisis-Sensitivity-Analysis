@@ -31,7 +31,9 @@ The analysis is organized in stages:
 
 ## Data
 
-Input files are expected in the `index_data/` folder. The script currently uses:
+The repository does not include the raw CSV data anymore. To run the analysis, create an `index_data/` folder in the project root and place the sector CSV files there.
+
+The script currently expects:
 
 - `NIFTY BANK.csv`
 - `NIFTY IT.csv`
@@ -71,7 +73,13 @@ Open `trial_rough.R` in RStudio or run it from an R session:
 source("trial_rough.R")
 ```
 
-Because the script uses absolute Windows file paths, you may need to update the `file_path` arguments inside the script if your project folder is in a different location.
+Before running:
+
+1. Create `index_data/` in the project folder.
+2. Add the required CSV files.
+3. Make sure each CSV has `Date` and `Close` columns.
+
+The script now looks for those files relative to the project folder. If any are missing, it stops with a clear error listing the missing paths.
 
 ## Key outputs
 
@@ -107,7 +115,7 @@ Important helper functions in `trial_rough.R`:
 ## Notes and current limitations
 
 - The script is written as a single exploratory workflow rather than a packaged project.
-- File paths are hard-coded for a local Windows directory.
+- The raw dataset is not tracked in this repository and must be provided separately.
 - Plot labels show some encoding artifacts in a few places.
 - The first test-period return is computed within the test split, so it does not use the last training close.
 - Most plots are displayed interactively and are not automatically saved.

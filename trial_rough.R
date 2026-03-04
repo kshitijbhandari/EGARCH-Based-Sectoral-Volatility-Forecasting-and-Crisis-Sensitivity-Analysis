@@ -11,6 +11,16 @@ analyze_index_ts <- function(file_path, index_name = "Index", test_days = 365) {
   cat("\n==============================\n")
   cat("  ANALYZING:", index_name, "\n")
   cat("==============================\n")
+
+  if (!file.exists(file_path)) {
+    stop(
+      paste0(
+        "Input file not found for ", index_name, ": ",
+        normalizePath(file_path, winslash = "/", mustWork = FALSE),
+        "\nCreate the index_data folder and add the required CSV files before running the script."
+      )
+    )
+  }
   
 
   data <- read.csv(file_path, header = TRUE, stringsAsFactors = FALSE)
@@ -160,30 +170,51 @@ analyze_index_ts <- function(file_path, index_name = "Index", test_days = 365) {
   ))
 }
 
+data_dir <- file.path(getwd(), "index_data")
+required_files <- c(
+  "NIFTY BANK.csv",
+  "NIFTY IT.csv",
+  "NIFTY PHARMA.csv",
+  "NIFTY FMCG.csv",
+  "NIFTY AUTO.csv"
+)
+
+missing_files <- required_files[!file.exists(file.path(data_dir, required_files))]
+
+if (length(missing_files) > 0) {
+  stop(
+    paste(
+      "Missing required input files in index_data/:",
+      paste(missing_files, collapse = ", "),
+      "\nAdd the CSV files locally before running trial_rough.R."
+    )
+  )
+}
+
 
 result_bank <- analyze_index_ts(
-  file_path = "C:/lehigh_academics/Homework/time series forecasting/project/index_data/NIFTY BANK.CSV",
+  file_path = file.path(data_dir, "NIFTY BANK.csv"),
   index_name = "NIFTY BANK"
 )
 
 
 result_it <- analyze_index_ts(
-  file_path = "C:/lehigh_academics/Homework/time series forecasting/project/index_data/NIFTY IT.CSV",
+  file_path = file.path(data_dir, "NIFTY IT.csv"),
   index_name = "NIFTY IT"
 )
 
 result_pharma <- analyze_index_ts(
-  file_path = "C:/lehigh_academics/Homework/time series forecasting/project/index_data/NIFTY PHARMA.CSV",
+  file_path = file.path(data_dir, "NIFTY PHARMA.csv"),
   index_name = "NIFTY PHARMA"
 )
 
 result_fmcg <- analyze_index_ts(
-  file_path = "C:/lehigh_academics/Homework/time series forecasting/project/index_data/NIFTY FMCG.CSV",
+  file_path = file.path(data_dir, "NIFTY FMCG.csv"),
   index_name = "NIFTY FMCG"
 )
 
 result_auto <- analyze_index_ts(
-  file_path = "C:/lehigh_academics/Homework/time series forecasting/project/index_data/NIFTY AUTO.CSV",
+  file_path = file.path(data_dir, "NIFTY AUTO.csv"),
   index_name = "NIFTY AUTO"
 )
 
