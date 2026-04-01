@@ -1,0 +1,257 @@
+﻿:root {
+  --bg: #fdf9f2;
+  --surface: #fffdf8;
+  --text: #1f2328;
+  --muted: #57606a;
+  --brand: #0550ae;
+  --brand-soft: #dbeafe;
+  --accent: #b35900;
+  --border: #d8dee4;
+  --shadow: 0 14px 32px rgba(12, 33, 58, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: linear-gradient(180deg, #fffaf0 0%, #f7fbff 100%);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  line-height: 1.55;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-shape {
+  position: fixed;
+  z-index: -1;
+  filter: blur(50px);
+  opacity: 0.45;
+}
+
+.bg-shape-a {
+  width: 28rem;
+  height: 28rem;
+  background: #ffd9a8;
+  border-radius: 52% 48% 40% 60%;
+  top: -6rem;
+  left: -10rem;
+}
+
+.bg-shape-b {
+  width: 30rem;
+  height: 30rem;
+  background: #c7e3ff;
+  border-radius: 45% 55% 55% 45%;
+  right: -12rem;
+  top: 16rem;
+}
+
+.hero {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 4.5rem 1.25rem 2.2rem;
+  animation: riseIn 0.8s ease;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0.5rem 0 0.9rem;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 56ch;
+  color: var(--muted);
+  font-family: "IBM Plex Serif", Georgia, serif;
+  font-size: 1.08rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.3rem;
+}
+
+.btn {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(5, 80, 174, 0.25);
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--brand);
+  border-color: var(--brand-soft);
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  animation: riseIn 0.8s ease;
+}
+
+h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.25rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.chips span {
+  border: 1px solid #c9d5e5;
+  border-radius: 999px;
+  padding: 0.3rem 0.62rem;
+  font-size: 0.84rem;
+  background: #f8fbff;
+}
+
+.timeline {
+  margin: 0;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.metrics {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  border: 1px solid #d7e2ef;
+  border-radius: 14px;
+  padding: 0.9rem;
+  background: #ffffff;
+}
+
+.card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.artifacts {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.artifact {
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #d7e2ef;
+  border-radius: 14px;
+  padding: 1rem;
+  background: linear-gradient(145deg, #ffffff, #f8fbff);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.artifact:hover {
+  transform: translateY(-2px);
+  border-color: #9fbde3;
+}
+
+.artifact h3 {
+  margin: 0 0 0.35rem;
+  color: #0a3069;
+  font-size: 1rem;
+}
+
+.artifact p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.publish code {
+  display: inline-block;
+  margin-top: 0.4rem;
+  background: #f6f8fa;
+  padding: 0.25rem 0.45rem;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  word-break: break-all;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 1rem 1rem 2rem;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-top: 3.2rem;
+  }
+
+  .panel {
+    padding: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}

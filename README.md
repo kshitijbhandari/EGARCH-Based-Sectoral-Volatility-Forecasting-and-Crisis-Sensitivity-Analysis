@@ -10,8 +10,28 @@ This repository analyzes five Indian equity sector indices with a results-first 
 
 If you only want outcomes, start here:
 
+- **Live Gallery (GitHub Pages):** `index.html` (publish from `main` / root)
 - **Results Gallery:** [RESULTS_GALLERY.md](RESULTS_GALLERY.md)
 - **Full written report (PDF):** [sector_volatility_analysis.pdf](sector_volatility_analysis.pdf)
+
+## Publish as Website (GitHub Pages)
+
+This repo now includes a UI-based site:
+
+- `index.html`
+- `styles.css`
+
+To publish:
+
+1. Go to repository **Settings**.
+2. Open **Pages**.
+3. Under **Source**, choose **Deploy from a branch**.
+4. Select branch **main** and folder **/ (root)**.
+5. Save.
+
+Expected URL:
+
+`https://kshitijbhandari.github.io/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/`
 
 ## Executive Snapshot
 
