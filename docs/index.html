@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EGARCH-Based Sectoral Volatility Forecasting</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 52px 32px 40px;
+      text-align: center;
+      border-bottom: 1px solid #21262d;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #e6edf3;
+      letter-spacing: -0.02em;
+    }
+
+    header .subtitle {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: #8b949e;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 12px 20px;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #58a6ff;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: #8b949e;
+      margin-top: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .header-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .header-links a {
+      display: inline-block;
+      padding: 8px 18px;
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .header-links a:hover { background: #30363d; border-color: #8b949e; }
+    .header-links a.primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .header-links a.primary:hover { background: #388bfd; border-color: #388bfd; }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+    }
+
+    .filter-btn {
+      padding: 6px 16px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      color: #8b949e;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { border-color: #58a6ff; color: #c9d1d9; }
+
+    .filter-btn.active {
+      background: #1f6feb;
+      border-color: #1f6feb;
+      color: #fff;
+    }
+
+    .sections { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    .section { margin-bottom: 60px; }
+
+    .section-header { margin-bottom: 20px; }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #58a6ff;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .section-desc {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #8b949e;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    .grid.wide {
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .card:hover { border-color: #58a6ff; transform: translateY(-2px); }
+
+    .card.hidden { display: none; }
+
+    .card img {
+      width: 100%;
+      min-height: 260px;
+      display: block;
+      background: #0d1117;
+      object-fit: cover;
+    }
+
+    .card-body { padding: 12px 14px 14px; }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+
+    .card-desc {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 8px;
+      background: #1f2937;
+      border: 1px solid #21262d;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      color: #58a6ff;
+    }
+
+    .section.all-hidden { display: none; }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 76vh;
+      border-radius: 6px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+      transition: opacity 0.15s;
+    }
+
+    .lightbox img.fading { opacity: 0; }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      text-align: center;
+      max-width: 700px;
+    }
+
+    .lightbox-caption .lc-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+
+    .lightbox-caption .lc-desc {
+      margin-top: 4px;
+      font-size: 0.82rem;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .lightbox-counter {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #484f58;
+      letter-spacing: 0.05em;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: #8b949e;
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+
+    .lightbox-close:hover { color: #e6edf3; }
+
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      font-size: 1.4rem;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .lightbox-nav:hover { background: #30363d; }
+    .lightbox-nav.prev { left: 16px; }
+    .lightbox-nav.next { right: 16px; }
+
+    @media (max-width: 600px) {
+      .lightbox-nav { display: none; }
+      .grid, .grid.wide { grid-template-columns: 1fr; }
+      .stats-bar { gap: 8px; }
+      .stat { min-width: 100px; padding: 10px 14px; }
+      .filter-bar { gap: 6px; }
+      .filter-btn { font-size: 0.75rem; padding: 5px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>EGARCH-Based Sectoral Volatility Forecasting</h1>
+  <p class="subtitle">
+    A full-pipeline R study of five NIFTY sector indices: seasonality testing, ARIMA mean modeling, GARCH/EGARCH volatility modeling, crisis-period sensitivity analysis, and rolling one-step-ahead volatility forecasting evaluated against realized volatility.
+  </p>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-value" data-target="5" data-suffix="">0</div>
+      <div class="stat-label">NIFTY Sectors</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="4" data-suffix="">0</div>
+      <div class="stat-label">Crisis Periods Analyzed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="20" data-suffix="+ yrs">0</div>
+      <div class="stat-label">Daily Price History</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="365" data-suffix=" days">0</div>
+      <div class="stat-label">Out-of-Sample Window</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="0.97" data-suffix="">0</div>
+      <div class="stat-label">Avg EGARCH Persistence</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="3" data-suffix="">0</div>
+      <div class="stat-label">Model Classes Compared</div>
+    </div>
+  </div>
+
+  <div class="header-links">
+    <a href="https://github.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis" class="primary">GitHub Repo</a>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="seasonality">Seasonality</button>
+  <button class="filter-btn" data-filter="stationarity">Stationarity &amp; Correlation</button>
+  <button class="filter-btn" data-filter="mean-models">Mean Models</button>
+  <button class="filter-btn" data-filter="volatility">Volatility &amp; Crisis</button>
+  <button class="filter-btn" data-filter="forecasting">Forecasting</button>
+</div>
+
+<div class="sections">
+
+  <!-- SECTION 1: SEASONALITY -->
+  <div class="section" data-section="seasonality">
+    <div class="section-header">
+      <div class="section-title">Seasonality Analysis</div>
+      <div class="section-desc">
+        Before fitting any model, it is essential to understand whether monthly return patterns repeat predictably across the calendar year. These plots decompose each sector's return series by month and by frequency, and the Friedman test determines whether any apparent seasonal structure is statistically significant or just noise.
+      </div>
+    </div>
+    <div class="grid wide">
+
+      <div class="card" data-category="seasonality"
+           data-title="Month Plots: NIFTY Sector Returns by Calendar Month"
+           data-desc="Each panel shows the distribution of monthly log returns for one sector, broken out by calendar month. If a sector had strong seasonality, you would see certain months consistently above or below zero. The flat, overlapping distributions across months confirm that no sector exhibits economically meaningful calendar-month patterns. This rules out seasonal ARIMA (SARIMA) and justifies using non-seasonal ARIMA(p,d,q) going forward."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p01.png"
+             alt="Month Plots" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Month Plots: Return by Calendar Month</div>
+          <div class="card-desc">Return distributions by calendar month for each sector. Flat patterns across months confirm no seasonal structure is present.</div>
+          <span class="tag">Seasonality</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="seasonality"
+           data-title="Monthly Return Patterns: Cross-Sector Overlay"
+           data-desc="A comparative view of average monthly log returns across all five sectors on a single axis. Sectors move largely in tandem throughout the calendar, with no single month standing out as systematically positive or negative across all sectors. This cross-sector consistency supports the Friedman test null hypothesis of no seasonal effect and confirms that Indian equity sector returns are not driven by calendar anomalies."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p03.png"
+             alt="Monthly Return Patterns" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Monthly Return Patterns: Cross-Sector</div>
+          <div class="card-desc">All five sectors overlaid by calendar month. No month stands out consistently, reinforcing the absence of seasonal effects.</div>
+          <span class="tag">Seasonality</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="seasonality"
+           data-title="Spectral Analysis: Frequency-Domain Seasonality Test"
+           data-desc="The periodogram decomposes each return series into its constituent frequencies. A strong seasonal cycle at frequency 1/12 (monthly) or 1/4 (quarterly) would appear as a sharp spike. The absence of dominant spectral peaks across all five sectors provides frequency-domain confirmation that no recurring cycle drives returns, consistent with the Friedman test results. The spectrum is broadly flat, characteristic of near-white-noise behavior."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p05.png"
+             alt="Spectral Analysis" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Spectral Analysis: Periodogram by Sector</div>
+          <div class="card-desc">Frequency-domain view of each sector's returns. No dominant spectral peaks means no recurring seasonal cycle is driving prices.</div>
+          <span class="tag">Seasonality</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="seasonality"
+           data-title="Seasonality Consistency Check: Final Sector View"
+           data-desc="A final cross-check of seasonal behavior using an alternative monthly aggregation. The visual confirms that the earlier findings hold across all five sectors regardless of how the data is sliced. With the Friedman test failing to reject the null for every sector, the pipeline confidently proceeds without any seasonal differencing or seasonal dummy variables."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p08.png"
+             alt="Seasonality Consistency Check" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Seasonality Consistency Check</div>
+          <div class="card-desc">Final verification across all sectors. Friedman test fails to reject no-seasonality for every sector, clearing the path for non-seasonal ARIMA.</div>
+          <span class="tag">Seasonality</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 2: STATIONARITY & CORRELATION -->
+  <div class="section" data-section="stationarity">
+    <div class="section-header">
+      <div class="section-title">Stationarity &amp; Correlation</div>
+      <div class="section-desc">
+        ARIMA and GARCH models require stationary inputs. This section applies three unit-root tests (ADF, Phillips-Perron, KPSS) to confirm that monthly log returns are stationary, and uses ACF and PACF plots to identify the lag structure that will inform ARIMA order selection. Without this step, any fitted model would be spurious.
+      </div>
+    </div>
+    <div class="grid wide">
+
+      <div class="card" data-category="stationarity"
+           data-title="ACF Diagnostics: Autocorrelation Function by Sector"
+           data-desc="The autocorrelation function (ACF) plots show the correlation between each sector's monthly return series and its own lagged values. Most lags fall within the 95% confidence bands (dashed blue lines), indicating that the return series have minimal linear dependence from one month to the next. This near-white-noise behavior is consistent with the efficient markets hypothesis and confirms that ARIMA with low orders (p,q of 0 or 1) will be sufficient."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p09.png"
+             alt="ACF Diagnostics" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">ACF: Autocorrelation by Sector</div>
+          <div class="card-desc">Autocorrelation at each lag for all five sectors. Most lags are within confidence bands, confirming near-white-noise monthly returns.</div>
+          <span class="tag">Stationarity &amp; Correlation</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="stationarity"
+           data-title="ACF Diagnostics II: Cross-Sector Autocorrelation Behavior"
+           data-desc="A second ACF panel comparing the remaining sectors. Small but occasionally significant lags appear in cyclical sectors (Auto, FMCG), suggesting mild momentum or mean-reversion effects at select horizons. These are noted but do not change the ARIMA order decision, since auto.arima selects on BIC which penalizes unnecessary parameters."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p10.png"
+             alt="ACF Diagnostics II" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">ACF II: Remaining Sectors</div>
+          <div class="card-desc">Mild significant lags appear in a few sectors. BIC-guided auto.arima penalizes over-parameterization, so these are not blindly included.</div>
+          <span class="tag">Stationarity &amp; Correlation</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="stationarity"
+           data-title="PACF Diagnostics: Partial Autocorrelation and AR Order Cues"
+           data-desc="The partial autocorrelation function (PACF) isolates the direct relationship between a return and its lag, removing the influence of intermediate lags. A sharp cutoff in the PACF at lag 1 or 2 suggests an AR(1) or AR(2) process. The mostly insignificant PACF values across sectors are consistent with ARIMA(0,0,0) or ARIMA(1,0,0) as the dominant model forms, which is exactly what auto.arima selects for most sectors."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p12.png"
+             alt="PACF Diagnostics" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">PACF: Partial Autocorrelation and AR Cues</div>
+          <div class="card-desc">PACF isolates direct lag effects. Mostly insignificant values guide auto.arima toward low-order models, avoiding overfitting.</div>
+          <span class="tag">Stationarity &amp; Correlation</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="stationarity"
+           data-title="Correlation Stability: Final ACF/PACF Cross-Check"
+           data-desc="A final panel verifying that the autocorrelation structure is consistent across the full data range. ADF and PP tests reject the unit root null at 1% for all five sectors, while KPSS fails to reject stationarity. This three-test consensus confirms that monthly log returns are stationary in mean and that no differencing (d=0) is needed in the ARIMA models."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p15.png"
+             alt="Correlation Stability" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Correlation Stability Check</div>
+          <div class="card-desc">Final cross-check confirms stationarity (ADF, PP, KPSS consensus). No differencing needed: d=0 for all ARIMA models.</div>
+          <span class="tag">Stationarity &amp; Correlation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: MEAN MODELS -->
+  <div class="section" data-section="mean-models">
+    <div class="section-header">
+      <div class="section-title">Mean Model Fitting: ARIMA &amp; Exponential Smoothing</div>
+      <div class="section-desc">
+        ARIMA and exponential smoothing models are fitted to capture any predictable structure in the mean of monthly log returns. The key diagnostic is whether the residuals behave like white noise: if they do, the mean model has extracted all available linear signal and the remaining volatility clustering can be handed off to the GARCH stage.
+      </div>
+    </div>
+    <div class="grid wide">
+
+      <div class="card" data-category="mean-models"
+           data-title="ARIMA Residuals: Time Series View by Sector"
+           data-desc="Residuals from the BIC-selected ARIMA model for each sector, plotted over time. Well-behaved residuals should appear as random scatter around zero with no visible trends, clustering, or outliers beyond what chance predicts. The large-magnitude residuals visible in 2008, 2013, and 2020 correspond to known crisis events, which ARIMA cannot capture because it only models the mean, not time-varying variance. This heteroscedasticity is exactly what motivates GARCH."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p16.png"
+             alt="ARIMA Residuals" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">ARIMA Residuals: Time Series</div>
+          <div class="card-desc">Residuals over time for each sector. Large spikes at crisis dates show heteroscedasticity that ARIMA cannot model, directly motivating GARCH.</div>
+          <span class="tag">Mean Models</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="mean-models"
+           data-title="Residual Distributions: Normality and Heavy Tails"
+           data-desc="Histograms of ARIMA residuals for each sector overlaid with a normal curve. The distributions are broadly bell-shaped but show heavier-than-normal tails (leptokurtosis), a defining feature of financial return series. This fat-tail behavior further confirms that a Gaussian ARIMA model alone is insufficient for risk analysis, and that the EGARCH model's Student-t error distribution will provide a better fit."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p18.png"
+             alt="Residual Distributions" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Residual Histograms: Heavy Tails</div>
+          <div class="card-desc">Residuals show heavier tails than Gaussian. This leptokurtosis justifies using a Student-t distribution in the EGARCH variance equation.</div>
+          <span class="tag">Mean Models</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="mean-models"
+           data-title="SES and Holt Residuals: Exponential Smoothing Diagnostics"
+           data-desc="Residuals from Simple Exponential Smoothing (SES) and Holt's linear trend method for each sector. Both methods produce residuals visually similar to the ARIMA case: the same crisis-period spikes appear, confirming that the heteroscedasticity is a property of the data, not an artifact of the ARIMA specification. Ljung-Box tests on these residuals confirm white noise in the mean, validating all three models as adequate mean-level representations."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots/rplots_p20.png"
+             alt="SES and Holt Residuals" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">SES &amp; Holt Residuals</div>
+          <div class="card-desc">Smoothing model residuals mirror ARIMA residuals. The same crisis spikes confirm the variance structure is in the data, not the model.</div>
+          <span class="tag">Mean Models</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="mean-models"
+           data-title="Residual ACF Follow-up: Whiteness Confirmation"
+           data-desc="ACF plots of ARIMA and smoothing model residuals. All lags fall within the 95% confidence bands, confirming that the Ljung-Box tests are correct: the residuals are white noise in the mean. This is a necessary condition before fitting a GARCH model, because GARCH models the squared residuals and requires that there is no remaining mean-level structure confounding the variance estimates."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p03.png"
+             alt="Residual ACF Follow-up" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Residual ACF: Whiteness Confirmed</div>
+          <div class="card-desc">All residual ACF lags fall within confidence bands. White noise in the mean is confirmed, clearing the way for GARCH on the squared residuals.</div>
+          <span class="tag">Mean Models</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4: VOLATILITY & CRISIS -->
+  <div class="section" data-section="volatility">
+    <div class="section-header">
+      <div class="section-title">Volatility Modeling &amp; Crisis Analysis</div>
+      <div class="section-desc">
+        GARCH and EGARCH models are fitted to the ARIMA residuals to capture time-varying volatility. EGARCH is preferred because it allows negative shocks (bad news) to impact volatility more than positive shocks of equal size, a well-documented leverage effect in equity markets. Crisis periods are then labeled on the volatility series to quantify how each sector responds to systemic stress events.
+      </div>
+    </div>
+    <div class="grid wide">
+
+      <div class="card" data-category="volatility"
+           data-title="Rolling 12-Month Volatility: All Five Sectors"
+           data-desc="Rolling standard deviation of monthly log returns over a 12-month window, plotted for all five sectors on the same axis. Volatility clearly clusters: calm periods are followed by calm, and turbulent periods spread across all sectors simultaneously. The three major spikes correspond to the GFC (2008-09), Taper Tantrum (2013), and COVID-19 (2020). IT and Pharma show more idiosyncratic behavior than Bank and Auto, which move more in lockstep with broad market stress."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p09.png"
+             alt="Rolling Volatility" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Rolling Volatility: Five Sectors Over Time</div>
+          <div class="card-desc">12-month rolling vol for all sectors. Volatility clustering is clearly visible, with GFC, Taper, and COVID as the three dominant spikes.</div>
+          <span class="tag">Volatility &amp; Crisis</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="volatility"
+           data-title="GARCH vs EGARCH: BIC Model Comparison"
+           data-desc="Conditional volatility series from GARCH(1,1) and EGARCH(1,1) plotted side by side for each sector. EGARCH consistently produces lower BIC values, meaning it explains the data better without adding excessive parameters. The key difference is visible around crisis downturns: EGARCH spikes higher in response to negative shocks than GARCH does, capturing the asymmetric leverage effect that symmetric GARCH misses."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p11.png"
+             alt="GARCH vs EGARCH" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">GARCH vs EGARCH: Volatility Dynamics</div>
+          <div class="card-desc">EGARCH wins on BIC for all sectors. The difference is largest around crash events, where asymmetric leverage effect amplifies downside volatility beyond what GARCH models.</div>
+          <span class="tag">Volatility &amp; Crisis</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="volatility"
+           data-title="Crisis Volatility Profile: Colored by Event"
+           data-desc="EGARCH conditional volatility for each sector, with four crisis windows color-coded: GFC 2008 (red), Taper Tantrum 2013 (orange), Demonetization 2016 (yellow), and COVID-19 2020 (purple). This view makes it immediately clear which crises caused the largest volatility spikes and how long the elevated regime persisted in each sector. Bank sector shows the tallest GFC spike; Pharma and FMCG show relatively muted COVID responses compared to Auto and Bank."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p13.png"
+             alt="Crisis Volatility Profile" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Crisis Volatility Profile: Color-Coded Events</div>
+          <div class="card-desc">Each crisis window colored distinctly. Bank sector leads during GFC; defensive sectors (Pharma, FMCG) show relative calm during COVID compared to cyclicals.</div>
+          <span class="tag">Volatility &amp; Crisis</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="volatility"
+           data-title="Crisis Comparison: Average Volatility by Event and Sector"
+           data-desc="A summary comparison of average and median EGARCH conditional volatility within each of the four crisis windows, broken out by sector. COVID-19 and GFC show the highest absolute volatility levels across the board. The Demonetization event of 2016 produced a spike concentrated in domestic consumption sectors (FMCG, Bank) rather than export-linked sectors (IT, Pharma), revealing the policy-specific nature of that shock compared to global crises."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p14.png"
+             alt="Crisis Comparison" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Crisis Comparison: Sector Sensitivity by Event</div>
+          <div class="card-desc">COVID and GFC dominate in absolute volatility. Demonetization hits domestic sectors hardest, showing that policy shocks have different transmission channels than global crises.</div>
+          <span class="tag">Volatility &amp; Crisis</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 5: FORECASTING -->
+  <div class="section" data-section="forecasting">
+    <div class="section-header">
+      <div class="section-title">Volatility Forecasting</div>
+      <div class="section-desc">
+        The final stage evaluates how well EGARCH(1,1) forecasts future volatility out-of-sample. A rolling one-step-ahead forecast is generated for each day in the 365-day test window, and the forecast is compared against 20-day realized volatility. RMSE, MAE, and MAPE quantify accuracy and allow direct comparison across sectors.
+      </div>
+    </div>
+    <div class="grid wide">
+
+      <div class="card" data-category="forecasting"
+           data-title="Forecast Evaluation Setup: Rolling EGARCH Methodology"
+           data-desc="This panel illustrates the rolling forecast design: the EGARCH model is re-estimated on an expanding window at each step, and the one-step-ahead conditional standard deviation is recorded as the forecast. The realized volatility benchmark is computed as the annualized rolling 20-day standard deviation of daily log returns. Using a rolling window rather than a fixed in-sample fit prevents look-ahead bias and simulates the information a practitioner would actually have at each forecasting date."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p15.png"
+             alt="Forecast Setup" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Forecast Setup: Rolling EGARCH Design</div>
+          <div class="card-desc">Rolling one-step-ahead EGARCH vs 20-day realized vol. Expanding window prevents look-ahead bias and mirrors real-world forecasting conditions.</div>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="forecasting"
+           data-title="EGARCH Forecast vs Realized Volatility: Sector 1"
+           data-desc="Forecasted and realized annualized volatility over the 365-day test period for the first sector. The EGARCH forecast (blue line) tracks the broad level and direction of realized volatility (orange line) but smooths over short-term spikes. This is expected: EGARCH models the conditional variance process, which is smoother than realized volatility computed from rolling windows. The accuracy metrics (RMSE, MAE, MAPE) quantify how much the smoothing costs in forecast precision."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p16.png"
+             alt="Forecast vs Realized: Sector 1" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Forecast vs Realized: Sector 1</div>
+          <div class="card-desc">EGARCH tracks the directional level of realized vol well but smooths over short spikes. Accuracy metrics quantify the cost of this smoothing.</div>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="forecasting"
+           data-title="EGARCH Forecast vs Realized Volatility: Sector 2"
+           data-desc="Forecast comparison for the second sector. The gap between forecast and realized tends to widen during sudden volatility regime shifts, where realized vol jumps faster than the EGARCH model can update. Conversely, EGARCH performs best in stable high-vol or stable low-vol regimes, where the persistence coefficient (beta1 near 0.97) means the model correctly predicts that current conditions will continue into the next period."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p17.png"
+             alt="Forecast vs Realized: Sector 2" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Forecast vs Realized: Sector 2</div>
+          <div class="card-desc">EGARCH excels in persistent regimes (high beta1). Forecast-realized gaps widen at sudden regime transitions, the main source of forecast error.</div>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="forecasting"
+           data-title="EGARCH Forecast vs Realized Volatility: Sector 3"
+           data-desc="Third sector forecast comparison, highlighting how the negative gamma1 (leverage effect) coefficient manifests in practice. During the few downward price spikes in the test period, the EGARCH forecast rises faster than a symmetric GARCH would, partially closing the gap with realized volatility. This demonstrates that EGARCH's asymmetric specification is not just statistically superior in-sample: it provides tangibly better out-of-sample forecasts during stress episodes."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p18.png"
+             alt="Forecast vs Realized: Sector 3" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Forecast vs Realized: Sector 3</div>
+          <div class="card-desc">Leverage effect (negative gamma1) improves forecast accuracy during stress: EGARCH reacts faster to negative shocks than symmetric GARCH would.</div>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+
+      <div class="card" data-category="forecasting"
+           data-title="EGARCH Forecast vs Realized Volatility: Sector 4"
+           data-desc="Fourth sector, showing the full forecast accuracy picture. The RMSE and MAE are lowest for defensive sectors (FMCG, Pharma) whose volatility processes are more stable and mean-reverting, and highest for cyclical sectors (Bank, Auto) whose conditional variance is more erratic. This cross-sector variation in forecast accuracy maps directly onto the cross-sector variation in EGARCH persistence estimates: higher persistence means more predictable volatility dynamics."
+           onclick="openLightbox(this)">
+        <img src="https://raw.githubusercontent.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/main/assets/plots/rplots1/rplots1_p19.png"
+             alt="Forecast vs Realized: Sector 4" loading="lazy"/>
+        <div class="card-body">
+          <div class="card-title">Forecast vs Realized: Sector 4</div>
+          <div class="card-desc">Defensive sectors yield lower RMSE than cyclicals. Higher EGARCH persistence directly predicts better forecast accuracy, linking in-sample fit to out-of-sample performance.</div>
+          <span class="tag">Forecasting</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBackdrop(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <button class="lightbox-nav prev" onclick="navigate(-1)">&#8249;</button>
+  <img id="lightbox-img" src="" alt=""/>
+  <div class="lightbox-caption">
+    <div class="lc-title" id="lc-title"></div>
+    <div class="lc-desc" id="lc-desc"></div>
+    <div class="lightbox-counter" id="lc-counter"></div>
+  </div>
+  <button class="lightbox-nav next" onclick="navigate(1)">&#8250;</button>
+</div>
+
+<script>
+  /* ── Filter ── */
+  const filterBtns   = document.querySelectorAll('.filter-btn');
+  const allCards     = Array.from(document.querySelectorAll('.card'));
+  const allSections  = Array.from(document.querySelectorAll('.section[data-section]'));
+  let activeFilter   = 'all';
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter;
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      allCards.forEach(card => {
+        const show = activeFilter === 'all' || card.dataset.category === activeFilter;
+        card.classList.toggle('hidden', !show);
+      });
+
+      allSections.forEach(section => {
+        const visible = section.querySelectorAll('.card:not(.hidden)').length > 0;
+        section.style.display = visible ? '' : 'none';
+      });
+    });
+  });
+
+  /* ── Lightbox ── */
+  let current = 0;
+
+  function visibleCards() {
+    return allCards.filter(c => !c.classList.contains('hidden'));
+  }
+
+  function openLightbox(card) {
+    const vc = visibleCards();
+    current = vc.indexOf(card);
+    showImage(current);
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showImage(index) {
+    const vc  = visibleCards();
+    const card = vc[index];
+    const imgEl = document.getElementById('lightbox-img');
+
+    imgEl.classList.add('fading');
+    setTimeout(() => {
+      imgEl.src = card.querySelector('img').src;
+      imgEl.classList.remove('fading');
+    }, 120);
+
+    document.getElementById('lc-title').textContent   = card.dataset.title || card.querySelector('.card-title').textContent;
+    document.getElementById('lc-desc').textContent    = card.dataset.desc  || '';
+    document.getElementById('lc-counter').textContent = (index + 1) + ' / ' + vc.length;
+  }
+
+  function navigate(dir) {
+    const vc = visibleCards();
+    current = (current + dir + vc.length) % vc.length;
+    showImage(current);
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOnBackdrop(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowRight') navigate(1);
+    if (e.key === 'ArrowLeft')  navigate(-1);
+  });
+
+  /* ── Animated stat counters ── */
+  function animateCounter(el) {
+    const target   = parseFloat(el.dataset.target);
+    const suffix   = el.dataset.suffix || '';
+    const isFloat  = target % 1 !== 0;
+    const duration = 1600;
+    const start    = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased    = 1 - Math.pow(1 - progress, 3);
+      const value    = target * eased;
+      el.textContent = (isFloat ? value.toFixed(2) : Math.round(value)) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = (isFloat ? target.toFixed(2) : target) + suffix;
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.stat-value[data-target]').forEach(animateCounter);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(document.querySelector('.stats-bar'));
+</script>
+
+</body>
+</html>
