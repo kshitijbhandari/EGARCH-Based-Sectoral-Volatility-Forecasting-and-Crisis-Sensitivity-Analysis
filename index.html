@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Results Gallery | Sector Volatility Project</title>
-  <meta name="description" content="Direct visual gallery of generated plots and results for sectoral volatility modeling." />
+  <title>Organized Results Gallery | Sector Volatility</title>
+  <meta name="description" content="Section-wise visual gallery of generated plots for sector volatility analysis." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet" />
@@ -14,230 +14,81 @@
   <header class="hero">
     <p class="eyebrow">GitHub Pages Results Website</p>
     <h1>Sector Volatility Results Gallery</h1>
-    <p class="subtitle">Every plot below is shown directly as an image asset, not embedded through PDF.</p>
+    <p class="subtitle">Organized by analysis stage so reviewers can understand your findings fast.</p>
   </header>
+
+  <nav class="section-nav"><a href="#seasonality">Seasonality and Return Structure</a>
+<a href="#stationarity">Stationarity and Correlation Diagnostics</a>
+<a href="#mean-models">Mean Model Residual Checks (ARIMA/SES/Holt)</a>
+<a href="#volatility">Volatility Modeling and Crisis Sensitivity</a>
+<a href="#forecasting">Forecast Evaluation</a></nav>
 
   <main class="container">
     <section class="panel">
-      <h2>What You Are Looking At</h2>
-      <p>This gallery presents the generated output visuals from your project workflow so viewers can evaluate the analysis story quickly without opening code files.</p>
-      <div class="results-grid">
+      <h2>How to Read This Page</h2>
+      <p>Start from Section 01 and move downward. Each block groups visuals tied to one analysis objective, from structure diagnostics to out-of-sample forecast evaluation.</p>
+    </section>
 
-      <article class="result-card">
-        <h3>Seasonality and Structure</h3>
-        <p>Month plots and spectral views reveal recurring return behavior patterns across sectors.</p>
-      </article>
-      <article class="result-card">
-        <h3>Model Diagnostics</h3>
-        <p>Residual and autocorrelation visuals are used to check adequacy of ARIMA-family baselines.</p>
-      </article>
-      <article class="result-card">
-        <h3>Volatility Dynamics</h3>
-        <p>Rolling volatility and ARCH-family plots capture clustering and persistence in risk.</p>
-      </article>
-      <article class="result-card">
-        <h3>Forecast Evaluation</h3>
-        <p>Out-of-sample volatility forecast plots support model comparison under real market regimes.</p>
-      </article>
-
+    
+    <section id="seasonality" class="panel section-block">
+      <div class="panel-head">
+        <h2>01. Seasonality and Return Structure</h2>
+        <span class="count">8 plots</span>
+      </div>
+      <p class="section-desc">Month plots and spectral visuals used to identify recurring return patterns across sectors.</p>
+      <div class="plot-grid">
+        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p01.png" alt="01. Seasonality and Return Structure - Plot 01" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 01</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p02.png" alt="01. Seasonality and Return Structure - Plot 02" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 02</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p03.png" alt="01. Seasonality and Return Structure - Plot 03" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 03</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p04.png" alt="01. Seasonality and Return Structure - Plot 04" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 04</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p05.png" alt="01. Seasonality and Return Structure - Plot 05" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 05</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p06.png" alt="01. Seasonality and Return Structure - Plot 06" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 06</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p07.png" alt="01. Seasonality and Return Structure - Plot 07" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 07</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p08.png" alt="01. Seasonality and Return Structure - Plot 08" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 08</figcaption></figure>
       </div>
     </section>
 
-    <section class="panel">
-  <div class="panel-head">
-    <h2>Rplots Gallery</h2>
-    <p>25 generated plots shown directly on this page.</p>
-  </div>
-  <div class="plot-grid">
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p01.png" alt="Rplots Gallery page 1" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 1</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p02.png" alt="Rplots Gallery page 2" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 2</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p03.png" alt="Rplots Gallery page 3" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 3</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p04.png" alt="Rplots Gallery page 4" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 4</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p05.png" alt="Rplots Gallery page 5" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 5</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p06.png" alt="Rplots Gallery page 6" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 6</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p07.png" alt="Rplots Gallery page 7" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 7</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p08.png" alt="Rplots Gallery page 8" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 8</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p09.png" alt="Rplots Gallery page 9" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 9</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p10.png" alt="Rplots Gallery page 10" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 10</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p11.png" alt="Rplots Gallery page 11" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 11</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p12.png" alt="Rplots Gallery page 12" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 12</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p13.png" alt="Rplots Gallery page 13" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 13</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p14.png" alt="Rplots Gallery page 14" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 14</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p15.png" alt="Rplots Gallery page 15" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 15</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p16.png" alt="Rplots Gallery page 16" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 16</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p17.png" alt="Rplots Gallery page 17" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 17</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p18.png" alt="Rplots Gallery page 18" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 18</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p19.png" alt="Rplots Gallery page 19" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 19</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p20.png" alt="Rplots Gallery page 20" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 20</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p21.png" alt="Rplots Gallery page 21" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 21</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p22.png" alt="Rplots Gallery page 22" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 22</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p23.png" alt="Rplots Gallery page 23" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 23</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p24.png" alt="Rplots Gallery page 24" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 24</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots/rplots_p25.png" alt="Rplots Gallery page 25" loading="lazy" />
-  <figcaption>Rplots Gallery ? Plot 25</figcaption>
-</figure>
-  </div>
-</section><section class="panel">
-  <div class="panel-head">
-    <h2>Rplots1 Gallery</h2>
-    <p>19 generated plots shown directly on this page.</p>
-  </div>
-  <div class="plot-grid">
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p01.png" alt="Rplots1 Gallery page 1" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 1</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p02.png" alt="Rplots1 Gallery page 2" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 2</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p03.png" alt="Rplots1 Gallery page 3" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 3</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p04.png" alt="Rplots1 Gallery page 4" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 4</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p05.png" alt="Rplots1 Gallery page 5" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 5</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p06.png" alt="Rplots1 Gallery page 6" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 6</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p07.png" alt="Rplots1 Gallery page 7" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 7</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p08.png" alt="Rplots1 Gallery page 8" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 8</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p09.png" alt="Rplots1 Gallery page 9" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 9</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p10.png" alt="Rplots1 Gallery page 10" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 10</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p11.png" alt="Rplots1 Gallery page 11" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 11</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p12.png" alt="Rplots1 Gallery page 12" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 12</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p13.png" alt="Rplots1 Gallery page 13" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 13</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p14.png" alt="Rplots1 Gallery page 14" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 14</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p15.png" alt="Rplots1 Gallery page 15" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 15</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p16.png" alt="Rplots1 Gallery page 16" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 16</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p17.png" alt="Rplots1 Gallery page 17" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 17</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p18.png" alt="Rplots1 Gallery page 18" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 18</figcaption>
-</figure>
-    <figure class="plot-item">
-  <img src="assets/plots/rplots1/rplots1_p19.png" alt="Rplots1 Gallery page 19" loading="lazy" />
-  <figcaption>Rplots1 Gallery ? Plot 19</figcaption>
-</figure>
-  </div>
-</section>
+    <section id="stationarity" class="panel section-block">
+      <div class="panel-head">
+        <h2>02. Stationarity and Correlation Diagnostics</h2>
+        <span class="count">7 plots</span>
+      </div>
+      <p class="section-desc">ACF/PACF and related diagnostics used before mean/volatility model fitting.</p>
+      <div class="plot-grid">
+        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p09.png" alt="02. Stationarity and Correlation Diagnostics - Plot 09" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 09</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p10.png" alt="02. Stationarity and Correlation Diagnostics - Plot 10" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 10</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p11.png" alt="02. Stationarity and Correlation Diagnostics - Plot 11" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 11</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p12.png" alt="02. Stationarity and Correlation Diagnostics - Plot 12" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 12</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p13.png" alt="02. Stationarity and Correlation Diagnostics - Plot 13" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 13</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p14.png" alt="02. Stationarity and Correlation Diagnostics - Plot 14" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 14</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p15.png" alt="02. Stationarity and Correlation Diagnostics - Plot 15" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 15</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="mean-models" class="panel section-block">
+      <div class="panel-head">
+        <h2>03. Mean Model Residual Checks (ARIMA/SES/Holt)</h2>
+        <span class="count">18 plots</span>
+      </div>
+      <p class="section-desc">Residual time-series, autocorrelation, and distribution checks for baseline mean models.</p>
+      <div class="plot-grid">
+        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p16.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 16" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 16</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p17.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 17" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 17</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p18.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 18" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 18</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p19.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 19" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 19</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p20.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 20" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 20</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p21.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 21" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 21</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p22.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 22" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 22</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p23.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 23" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 23</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p24.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 24" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 24</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p25.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 25" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 25</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p01.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 01" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 01</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p02.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 02" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 02</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p03.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 03" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 03</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p04.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 04" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 04</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p05.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 05" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 05</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p06.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 06" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 06</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p07.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 07" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 07</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p08.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 08" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 08</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="volatility" class="panel section-block">
+      <div class="panel-head">
+        <h2>04. Volatility Modeling and Crisis Sensitivity</h2>
+        <span class="count">7 plots</span>
+      </div>
+      <p class="section-desc">Rolling volatility, GARCH/EGARCH behavior, and crisis-regime comparisons across sectors.</p>
+      <div class="plot-grid">
+        <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p09.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 09" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 09</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p10.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 10" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 10</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p11.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 11" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 11</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p12.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 12" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 12</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p13.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 13" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 13</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p14.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 14" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 14</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p15.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 15" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 15</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="forecasting" class="panel section-block">
+      <div class="panel-head">
+        <h2>05. Forecast Evaluation</h2>
+        <span class="count">4 plots</span>
+      </div>
+      <p class="section-desc">Out-of-sample volatility forecast comparison and consolidated performance visuals.</p>
+      <div class="plot-grid">
+        <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p16.png" alt="05. Forecast Evaluation - Plot 16" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 16</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p17.png" alt="05. Forecast Evaluation - Plot 17" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 17</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p18.png" alt="05. Forecast Evaluation - Plot 18" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 18</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p19.png" alt="05. Forecast Evaluation - Plot 19" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 19</figcaption></figure>
+      </div>
+    </section>
+
   </main>
 
   <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button id="closeLightbox" class="lightbox-close" aria-label="Close">?</button>
+    <button id="closeLightbox" class="lightbox-close" aria-label="Close">X</button>
     <img id="lightboxImage" src="" alt="Expanded plot" />
   </div>
 
@@ -261,12 +112,8 @@
     }
 
     closeLightbox.addEventListener('click', closeViewer);
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeViewer();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeViewer();
-    });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeViewer(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeViewer(); });
   </script>
 </body>
 </html>
