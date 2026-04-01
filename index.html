@@ -1,126 +1,272 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sector Volatility Results Gallery</title>
-  <meta name="description" content="Interactive results gallery for EGARCH-based sectoral volatility forecasting and crisis sensitivity analysis." />
+  <title>Results Gallery | Sector Volatility Project</title>
+  <meta name="description" content="Direct visual gallery of generated plots and results for sectoral volatility modeling." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="bg-shape bg-shape-a"></div>
-  <div class="bg-shape bg-shape-b"></div>
-
   <header class="hero">
-    <p class="eyebrow">Time Series Forecasting Project</p>
-    <h1>EGARCH-Based Sectoral Volatility Forecasting</h1>
-    <p class="subtitle">
-      A results-first gallery so you can understand the full analysis without reading source code.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="sector_volatility_analysis.pdf" target="_blank" rel="noopener">Open Full Report</a>
-      <a class="btn btn-secondary" href="https://github.com/kshitijbhandari/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis" target="_blank" rel="noopener">Open GitHub Repo</a>
-    </div>
+    <p class="eyebrow">GitHub Pages Results Website</p>
+    <h1>Sector Volatility Results Gallery</h1>
+    <p class="subtitle">Every plot below is shown directly as an image asset, not embedded through PDF.</p>
   </header>
 
   <main class="container">
-    <section class="panel intro">
-      <h2>Project Goal</h2>
-      <p>
-        Measure and compare volatility behavior across five Indian sector indices, then evaluate how well EGARCH captures persistence,
-        asymmetry, and short-horizon risk during normal and crisis regimes.
-      </p>
-      <div class="chips">
-        <span>NIFTY BANK</span>
-        <span>NIFTY IT</span>
-        <span>NIFTY PHARMA</span>
-        <span>NIFTY FMCG</span>
-        <span>NIFTY AUTO</span>
+    <section class="panel">
+      <h2>What You Are Looking At</h2>
+      <p>This gallery presents the generated output visuals from your project workflow so viewers can evaluate the analysis story quickly without opening code files.</p>
+      <div class="results-grid">
+
+      <article class="result-card">
+        <h3>Seasonality and Structure</h3>
+        <p>Month plots and spectral views reveal recurring return behavior patterns across sectors.</p>
+      </article>
+      <article class="result-card">
+        <h3>Model Diagnostics</h3>
+        <p>Residual and autocorrelation visuals are used to check adequacy of ARIMA-family baselines.</p>
+      </article>
+      <article class="result-card">
+        <h3>Volatility Dynamics</h3>
+        <p>Rolling volatility and ARCH-family plots capture clustering and persistence in risk.</p>
+      </article>
+      <article class="result-card">
+        <h3>Forecast Evaluation</h3>
+        <p>Out-of-sample volatility forecast plots support model comparison under real market regimes.</p>
+      </article>
+
       </div>
     </section>
 
     <section class="panel">
-      <h2>Result Storyline</h2>
-      <ol class="timeline">
-        <li>Converted daily closes to log returns and built monthly return series.</li>
-        <li>Tested seasonality and stationarity (Friedman, ADF, PP, KPSS).</li>
-        <li>Benchmarked ARIMA-family mean models and residual adequacy.</li>
-        <li>Compared GARCH(1,1) and EGARCH(1,1) by BIC across sectors.</li>
-        <li>Evaluated crisis-period volatility behavior and cross-sector sensitivity.</li>
-        <li>Scored rolling one-step-ahead EGARCH forecasts (RMSE, MAE, MAPE).</li>
-      </ol>
-    </section>
-
-    <section class="panel">
-      <h2>Results at a Glance</h2>
-      <div class="grid metrics">
-        <article class="card">
-          <h3>Seasonality Evidence</h3>
-          <p>Month plots, spectra, and Friedman tests check if monthly return behavior is systematic.</p>
-        </article>
-        <article class="card">
-          <h3>Stationarity Checks</h3>
-          <p>ADF, PP, and KPSS outputs validate assumptions before model fitting.</p>
-        </article>
-        <article class="card">
-          <h3>Model Selection</h3>
-          <p>BIC tables compare candidate ARIMA and volatility models parsimoniously.</p>
-        </article>
-        <article class="card">
-          <h3>Residual Diagnostics</h3>
-          <p>Ljung-Box and residual plots test for remaining serial structure.</p>
-        </article>
-        <article class="card">
-          <h3>Crisis Sensitivity</h3>
-          <p>Cross-sector volatility behavior is profiled specifically during stress windows.</p>
-        </article>
-        <article class="card">
-          <h3>Forecast Quality</h3>
-          <p>Rolling out-of-sample volatility performance is assessed using RMSE, MAE, and MAPE.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Artifacts</h2>
-      <div class="grid artifacts">
-        <a class="artifact" href="sector_volatility_analysis.pdf" target="_blank" rel="noopener">
-          <h3>Final Analysis Report (PDF)</h3>
-          <p>All charts, tables, interpretations, and conclusions in one document.</p>
-        </a>
-        <a class="artifact" href="Rplots.pdf" target="_blank" rel="noopener">
-          <h3>Plot Collection A</h3>
-          <p>Primary graphics output from exploratory/model diagnostics.</p>
-        </a>
-        <a class="artifact" href="Rplots1.pdf" target="_blank" rel="noopener">
-          <h3>Plot Collection B</h3>
-          <p>Additional graphics generated during script execution.</p>
-        </a>
-        <a class="artifact" href="sector_volatility_analysis.R" target="_blank" rel="noopener">
-          <h3>R Implementation</h3>
-          <p>End-to-end modeling pipeline used to generate all outputs.</p>
-        </a>
-      </div>
-    </section>
-
-    <section class="panel publish">
-      <h2>Publish This as GitHub Pages</h2>
-      <p>
-        In your GitHub repo, open <strong>Settings -> Pages</strong>, set <strong>Source</strong> to
-        <strong>Deploy from a branch</strong>, choose <strong>main</strong> and <strong>/ (root)</strong>, then Save.
-      </p>
-      <p>
-        Your live URL will be:
-        <code>https://kshitijbhandari.github.io/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/</code>
-      </p>
-    </section>
+  <div class="panel-head">
+    <h2>Rplots Gallery</h2>
+    <p>25 generated plots shown directly on this page.</p>
+  </div>
+  <div class="plot-grid">
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p01.png" alt="Rplots Gallery page 1" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 1</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p02.png" alt="Rplots Gallery page 2" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 2</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p03.png" alt="Rplots Gallery page 3" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 3</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p04.png" alt="Rplots Gallery page 4" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 4</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p05.png" alt="Rplots Gallery page 5" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 5</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p06.png" alt="Rplots Gallery page 6" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 6</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p07.png" alt="Rplots Gallery page 7" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 7</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p08.png" alt="Rplots Gallery page 8" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 8</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p09.png" alt="Rplots Gallery page 9" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 9</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p10.png" alt="Rplots Gallery page 10" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 10</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p11.png" alt="Rplots Gallery page 11" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 11</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p12.png" alt="Rplots Gallery page 12" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 12</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p13.png" alt="Rplots Gallery page 13" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 13</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p14.png" alt="Rplots Gallery page 14" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 14</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p15.png" alt="Rplots Gallery page 15" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 15</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p16.png" alt="Rplots Gallery page 16" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 16</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p17.png" alt="Rplots Gallery page 17" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 17</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p18.png" alt="Rplots Gallery page 18" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 18</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p19.png" alt="Rplots Gallery page 19" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 19</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p20.png" alt="Rplots Gallery page 20" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 20</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p21.png" alt="Rplots Gallery page 21" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 21</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p22.png" alt="Rplots Gallery page 22" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 22</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p23.png" alt="Rplots Gallery page 23" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 23</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p24.png" alt="Rplots Gallery page 24" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 24</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots/rplots_p25.png" alt="Rplots Gallery page 25" loading="lazy" />
+  <figcaption>Rplots Gallery ? Plot 25</figcaption>
+</figure>
+  </div>
+</section><section class="panel">
+  <div class="panel-head">
+    <h2>Rplots1 Gallery</h2>
+    <p>19 generated plots shown directly on this page.</p>
+  </div>
+  <div class="plot-grid">
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p01.png" alt="Rplots1 Gallery page 1" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 1</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p02.png" alt="Rplots1 Gallery page 2" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 2</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p03.png" alt="Rplots1 Gallery page 3" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 3</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p04.png" alt="Rplots1 Gallery page 4" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 4</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p05.png" alt="Rplots1 Gallery page 5" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 5</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p06.png" alt="Rplots1 Gallery page 6" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 6</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p07.png" alt="Rplots1 Gallery page 7" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 7</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p08.png" alt="Rplots1 Gallery page 8" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 8</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p09.png" alt="Rplots1 Gallery page 9" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 9</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p10.png" alt="Rplots1 Gallery page 10" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 10</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p11.png" alt="Rplots1 Gallery page 11" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 11</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p12.png" alt="Rplots1 Gallery page 12" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 12</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p13.png" alt="Rplots1 Gallery page 13" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 13</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p14.png" alt="Rplots1 Gallery page 14" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 14</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p15.png" alt="Rplots1 Gallery page 15" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 15</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p16.png" alt="Rplots1 Gallery page 16" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 16</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p17.png" alt="Rplots1 Gallery page 17" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 17</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p18.png" alt="Rplots1 Gallery page 18" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 18</figcaption>
+</figure>
+    <figure class="plot-item">
+  <img src="assets/plots/rplots1/rplots1_p19.png" alt="Rplots1 Gallery page 19" loading="lazy" />
+  <figcaption>Rplots1 Gallery ? Plot 19</figcaption>
+</figure>
+  </div>
+</section>
   </main>
 
-  <footer class="footer">
-    <p>Built as a results-first gallery for rapid project understanding.</p>
-  </footer>
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button id="closeLightbox" class="lightbox-close" aria-label="Close">?</button>
+    <img id="lightboxImage" src="" alt="Expanded plot" />
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    document.querySelectorAll('.plot-item img').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.src;
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    function closeViewer() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+    }
+
+    closeLightbox.addEventListener('click', closeViewer);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeViewer();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeViewer();
+    });
+  </script>
 </body>
 </html>

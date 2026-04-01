@@ -12,6 +12,9 @@ TimeSeries/
 Rplots.pdf
 Rplots1.pdf
 *.png
+!assets/
+!assets/plots/
+!assets/plots/**/*.png
 presentation.pptx
 trial_rough.docx
 Project_Report.docx
