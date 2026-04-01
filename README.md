@@ -115,4 +115,4 @@ The common pattern across all sectors is that EGARCH forecasts track the directi
 
 ## Results Gallery
 
-An interactive results gallery is available at the GitHub Pages site for this repository, organized by analysis stage with a filterable card layout and full-image lightbox.(https://kshitijbhandari.github.io/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/)
+An interactive results gallery is available at the GitHub Pages site for this repository, organized by analysis stage with a filterable card layout and full-image lightbox.
