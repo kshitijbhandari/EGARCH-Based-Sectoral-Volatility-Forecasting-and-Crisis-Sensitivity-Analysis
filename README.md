@@ -1,128 +1,118 @@
-# Time Series Forecasting Project
+# EGARCH-Based Sectoral Volatility Forecasting and Crisis Sensitivity Analysis
 
-This project analyzes Indian equity sector indices using classical time-series methods and volatility models in R. The main script, `sector_volatility_analysis.R`, studies monthly return behavior and daily volatility for five sector indices:
+This project applies a full time-series pipeline to five Indian equity sector indices (NIFTY BANK, IT, PHARMA, FMCG, AUTO) spanning over 20 years of daily price history. The central question is whether an EGARCH(1,1) model fitted to monthly log returns can produce reliable one-step-ahead volatility forecasts, and whether the model's asymmetry and persistence parameters differentiate meaningfully across sectors and crisis regimes.
 
-- NIFTY BANK
-- NIFTY IT
-- NIFTY PHARMA
-- NIFTY FMCG
-- NIFTY AUTO
+---
 
-## What the script does
+## Data and Preprocessing
 
-The analysis is organized in stages:
+Daily closing prices for each sector index are converted to log returns: `r_t = ln(P_t) - ln(P_{t-1})`. Daily returns are then aggregated to monthly log returns by summing within each calendar month. This aggregation reduces microstructure noise and aligns the modeling frequency with the horizon of interest.
 
-1. Load index CSV data and sort by date.
-2. Split data into training and test sets using the last 365 days as the test period.
-3. Compute daily log returns.
-4. Aggregate daily returns into monthly log returns.
-5. Examine seasonality using month plots, periodograms, and the Friedman test.
-6. Check stationarity with ADF, PP, and KPSS tests.
-7. Fit and compare simple ARIMA models, then select an automatic ARIMA model using BIC.
-8. Fit SES and Holt models and inspect residual diagnostics.
-9. Compute rolling volatility across sectors.
-10. Fit and compare `GARCH(1,1)` and `EGARCH(1,1)` models.
-11. Summarize volatility persistence and asymmetry across sectors.
-12. Evaluate rolling one-step-ahead EGARCH volatility forecasts against realized volatility.
+The last 365 calendar days are held out as the test set. Everything prior is training data. No look-ahead is used at any stage: the rolling forecast procedure re-estimates on an expanding window at each step, using only information available at that date.
 
-## Main file
+---
 
-- `sector_volatility_analysis.R`: full end-to-end analysis script.
+## Seasonality Testing
 
-## Data
+Month plots and periodograms are produced for each sector before any model is fitted. The Friedman non-parametric test formally tests whether calendar month has a significant effect on return levels. The null hypothesis of no seasonal effect is not rejected for any of the five sectors. Spectral plots confirm this: the periodograms are broadly flat with no dominant frequency spike at monthly or quarterly cycles. As a result, no seasonal differencing is applied and non-seasonal ARIMA is used throughout.
 
-The repository does not include the raw CSV data anymore. To run the analysis, create an `index_data/` folder in the project root and place the sector CSV files there.
+---
 
-The script currently expects:
+## Stationarity Testing
 
-- `NIFTY BANK.csv`
-- `NIFTY IT.csv`
-- `NIFTY PHARMA.csv`
-- `NIFTY FMCG.csv`
-- `NIFTY AUTO.csv`
+Three unit-root and stationarity tests are applied to each sector's monthly log return series:
 
-The script assumes each CSV contains at least these columns:
+- **ADF (Augmented Dickey-Fuller):** null hypothesis is a unit root. Rejected at 1% for all sectors.
+- **Phillips-Perron:** null hypothesis is a unit root. Rejected at 1% for all sectors.
+- **KPSS:** null hypothesis is stationarity. Fails to reject for all sectors.
 
-- `Date`
-- `Close`
+The three-test consensus confirms that monthly log returns are stationary in mean. No differencing is required, so `d = 0` in all ARIMA specifications.
 
-## Required R packages
+ACF and PACF plots show that almost all lags fall within the 95% confidence bands, consistent with near-white-noise behavior in the mean. This rules out high-order AR or MA components and guides auto.arima toward parsimonious models.
 
-Install these packages before running the script:
+---
 
-```r
-install.packages(c(
-  "dplyr",
-  "lubridate",
-  "forecast",
-  "tseries",
-  "urca",
-  "ggplot2",
-  "zoo",
-  "rugarch",
-  "Metrics",
-  "gridExtra"
-))
+## Mean Model Fitting
+
+Four candidate ARIMA models are manually fitted for each sector: ARIMA(0,0,0), (1,0,0), (0,0,1), and (1,0,1). An exhaustive auto.arima search using BIC as the selection criterion is then run. BIC's stronger penalty for complexity means most sectors are selected as ARIMA(0,0,0) with zero mean or a non-zero mean constant, reflecting the near-absence of exploitable autocorrelation in monthly equity returns.
+
+Simple Exponential Smoothing (SES) and Holt's linear trend method are also fitted as benchmarks. Ljung-Box tests confirm white-noise residuals for all three model classes across all five sectors. Residual histograms reveal heavier-than-normal tails (leptokurtosis), which motivates using a Student-t error distribution in the variance model.
+
+The key diagnostic takeaway from this stage is that large-magnitude residual spikes appear around 2008 and 2020 in every sector. ARIMA models the conditional mean and cannot adapt its variance over time. This clustering of large residuals is textbook ARCH effect, and directly motivates moving to GARCH for the variance equation.
+
+---
+
+## Volatility Modeling: GARCH vs EGARCH
+
+GARCH(1,1) and EGARCH(1,1) are fitted to the ARIMA residuals for each sector. Model selection is based on BIC. EGARCH wins for all five sectors.
+
+The standard GARCH(1,1) variance equation is:
+
+```
+h_t = omega + alpha * u_{t-1}^2 + beta * h_{t-1}
 ```
 
-## How to run
+EGARCH models the log of conditional variance and adds an asymmetry term:
 
-Open `sector_volatility_analysis.R` in RStudio or run it from an R session:
-
-```r
-source("sector_volatility_analysis.R")
+```
+ln(h_t) = omega + alpha * (|z_{t-1}| - E|z|) + gamma * z_{t-1} + beta * ln(h_{t-1})
 ```
 
-Before running:
+The gamma coefficient captures the leverage effect: when `gamma < 0`, a negative shock of size `z` increases conditional variance more than a positive shock of the same size. This is a well-documented property of equity markets where price drops tend to cause larger volatility increases than equivalent price rises. All five sectors produce negative gamma estimates, confirming the leverage effect is present across the Indian equity universe studied here.
 
-1. Create `index_data/` in the project folder.
-2. Add the required CSV files.
-3. Make sure each CSV has `Date` and `Close` columns.
+The persistence of volatility shocks is measured by `alpha1 + beta1`. Values close to 1 indicate that shocks take a long time to decay. Across the five sectors the average persistence is approximately 0.97, meaning roughly 97% of a volatility shock is still present in the next period's conditional variance. This is typical of equity index data and has a direct implication for forecasting: EGARCH will tend to track the current volatility regime closely rather than revert quickly to the long-run mean.
 
-The script now looks for those files relative to the project folder. If any are missing, it stops with a clear error listing the missing paths.
+---
 
-## Key outputs
+## Crisis Period Analysis
 
-Running the script produces:
+Four historical crisis windows are labeled on each sector's conditional volatility series:
 
-- Monthly seasonality plots for each sector
-- Sample spectrum plots
-- ACF and PACF plots
-- ARIMA, SES, and Holt residual diagnostics
-- Stationarity and seasonality summary tables
-- ARIMA model comparison table
-- Rolling volatility comparison plot
-- GARCH vs EGARCH BIC comparison table
-- EGARCH coefficient summary table
-- Crisis-period volatility plots and summaries
-- Forecast accuracy table using RMSE, MAE, and MAPE
+| Event | Window |
+|---|---|
+| GFC 2008 | Jan 2008 to Dec 2009 |
+| Taper Tantrum 2013 | May 2013 to Nov 2013 |
+| Demonetization 2016 | Nov 2016 to Mar 2017 |
+| COVID-19 2020 | Feb 2020 to Dec 2020 |
 
-## Functions included
+Several cross-sector patterns emerge from this analysis:
 
-Important helper functions in `sector_volatility_analysis.R`:
+**NIFTY BANK** shows the largest GFC spike and a sharp COVID surge. As a financial sector index, BANK is directly exposed to credit and liquidity stress, making it the most sensitive sector to systemic financial crises.
 
-- `analyze_index_ts()`
-- `get_roll_vol()`
-- `get_vol_bic()`
-- `fit_egarch_sector()`
-- `label_crisis_periods()`
-- `plot_crisis_vol()`
-- `crisis_summary()`
-- `forecast_egarch_rolling()`
-- `compute_realized_vol()`
-- `volatility_eval()`
+**NIFTY IT** exhibits an extreme early-period volatility spike (near 1.0 annualized) driven by the dot-com residual and index construction history from the early 2000s. During GFC and COVID, IT volatility is comparatively lower than BANK, reflecting the sector's less leveraged balance sheets and recurring revenue model.
 
-## Notes and current limitations
+**NIFTY PHARMA** shows a moderate GFC response and an elevated COVID spike, the opposite of IT. The pandemic created demand and supply-chain uncertainty in the pharmaceutical space, increasing volatility even as the broader sector benefited from health-sector attention.
 
-- The script is written as a single exploratory workflow rather than a packaged project.
-- The raw dataset is not tracked in this repository and must be provided separately.
-- Plot labels show some encoding artifacts in a few places.
-- The first test-period return is computed within the test split, so it does not use the last training close.
-- Most plots are displayed interactively and are not automatically saved.
+**NIFTY AUTO** is highly cyclical and shows sharp spikes in both GFC and COVID windows. Vehicle demand is sensitive to credit availability and consumer confidence, making AUTO one of the first sectors to transmit macroeconomic stress into price volatility.
 
-## Possible next improvements
+**NIFTY FMCG** is the most defensive sector in the study and shows the smallest crisis spikes overall. The exception is Demonetization 2016, where FMCG distribution channels were directly disrupted by the sudden cash withdrawal policy. This differentiates FMCG from IT and Pharma during that event: it was a domestic demand-side shock, not a financial or global shock, and FMCG bore the brunt of it.
 
-- Convert absolute paths to relative paths.
-- Save plots and tables to an `outputs/` folder.
-- Refactor repeated plotting code into reusable functions.
-- Separate exploratory analysis from final forecasting code.
+The Taper Tantrum of 2013 produces the smallest uniform response across all sectors, consistent with its characterization as a rate expectation shock rather than a realized economic disruption.
+
+---
+
+## Volatility Forecasting
+
+Rolling one-step-ahead EGARCH forecasts are generated for each trading day in the 365-day test window. At each step the model is re-estimated on all available data up to that date, and the one-step-ahead conditional standard deviation is recorded as the forecast. This expanding-window design avoids any look-ahead bias and simulates the information set a practitioner would actually have.
+
+Realized volatility is computed as the annualized rolling 20-day standard deviation of daily log returns and serves as the benchmark against which forecasts are evaluated.
+
+**Forecast accuracy across sectors:**
+
+| Sector | RMSE | MAE | MAPE |
+|---|---|---|---|
+| NIFTY BANK | 4.32% | 3.07% | 12.6% |
+| NIFTY IT | 3.85% | 3.24% | 19.6% |
+| NIFTY PHARMA | 3.89% | 3.12% | 14.6% |
+| NIFTY AUTO | 3.48% | 2.77% | 12.7% |
+| NIFTY FMCG | 2.96% | 2.61% | 22.2% |
+
+FMCG achieves the lowest RMSE and MAE in absolute terms, consistent with its stable, low-volatility return process. NIFTY BANK has the highest RMSE, reflecting the larger and more abrupt volatility swings in the financial sector. NIFTY IT and FMCG show the highest MAPE despite relatively low absolute errors: percentage errors are inflated when realized volatility passes through very low values (near zero denominator), which occurs more frequently in sectors where baseline volatility is low.
+
+The common pattern across all sectors is that EGARCH forecasts track the directional level and broad trend of realized volatility well. Forecast errors are concentrated at sudden regime transitions, where realized volatility jumps faster than the persistence-heavy EGARCH process can update. This is the expected behavior of a high-persistence model: it is accurate in stable regimes and lags at turning points.
+
+---
+
+## Results Gallery
+
+An interactive results gallery is available at the GitHub Pages site for this repository, organized by analysis stage with a filterable card layout and full-image lightbox.
