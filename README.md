@@ -1,5 +1,7 @@
 # EGARCH-Based Sectoral Volatility Forecasting and Crisis Sensitivity Analysis
 
+**[Results Gallery](https://kshitijbhandari.github.io/EGARCH-Based-Sectoral-Volatility-Forecasting-and-Crisis-Sensitivity-Analysis/)**
+
 This project applies a full time-series pipeline to five Indian equity sector indices (NIFTY BANK, IT, PHARMA, FMCG, AUTO) spanning over 20 years of daily price history. The central question is whether an EGARCH(1,1) model fitted to monthly log returns can produce reliable one-step-ahead volatility forecasts, and whether the model's asymmetry and persistence parameters differentiate meaningfully across sectors and crisis regimes.
 
 ---
