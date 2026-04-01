@@ -1,6 +1,6 @@
-# Time Series Forecasting Project
+# Time Series Forecasting and Volatility Modeling
 
-This project analyzes Indian equity sector indices using classical time-series methods and volatility models in R. The main script, `sector_volatility_analysis.R`, studies monthly return behavior and daily volatility for five sector indices:
+This repository analyzes five Indian equity sector indices with a results-first focus:
 
 - NIFTY BANK
 - NIFTY IT
@@ -8,32 +8,41 @@ This project analyzes Indian equity sector indices using classical time-series m
 - NIFTY FMCG
 - NIFTY AUTO
 
-## What the script does
+If you only want outcomes, start here:
 
-The analysis is organized in stages:
+- **Results Gallery:** [RESULTS_GALLERY.md](RESULTS_GALLERY.md)
+- **Full written report (PDF):** [sector_volatility_analysis.pdf](sector_volatility_analysis.pdf)
 
-1. Load index CSV data and sort by date.
-2. Split data into training and test sets using the last 365 days as the test period.
+## Executive Snapshot
+
+This project builds an end-to-end workflow for:
+
+1. Monthly return behavior and seasonality testing.
+2. ARIMA-family forecasting baseline comparison.
+3. Daily volatility estimation with `GARCH(1,1)` and `EGARCH(1,1)`.
+4. Cross-sector crisis-period volatility analysis.
+5. Rolling one-step-ahead volatility forecast evaluation.
+
+## Analysis Pipeline
+
+The script `sector_volatility_analysis.R` runs these stages:
+
+1. Load and clean index data.
+2. Split into train/test with the last 365 days as test.
 3. Compute daily log returns.
-4. Aggregate daily returns into monthly log returns.
-5. Examine seasonality using month plots, periodograms, and the Friedman test.
-6. Check stationarity with ADF, PP, and KPSS tests.
-7. Fit and compare simple ARIMA models, then select an automatic ARIMA model using BIC.
-8. Fit SES and Holt models and inspect residual diagnostics.
-9. Compute rolling volatility across sectors.
-10. Fit and compare `GARCH(1,1)` and `EGARCH(1,1)` models.
-11. Summarize volatility persistence and asymmetry across sectors.
-12. Evaluate rolling one-step-ahead EGARCH volatility forecasts against realized volatility.
+4. Aggregate to monthly log returns.
+5. Test seasonality via month plots, spectra, and Friedman tests.
+6. Test stationarity via ADF, PP, and KPSS.
+7. Fit/compare ARIMA models and select by BIC.
+8. Fit SES/Holt baselines and run residual checks.
+9. Estimate rolling volatility.
+10. Compare `GARCH(1,1)` vs `EGARCH(1,1)` by BIC.
+11. Summarize persistence and asymmetry from EGARCH.
+12. Evaluate volatility forecasts with RMSE, MAE, and MAPE.
 
-## Main file
+## Data Requirements
 
-- `sector_volatility_analysis.R`: full end-to-end analysis script.
-
-## Data
-
-The repository does not include the raw CSV data anymore. To run the analysis, create an `index_data/` folder in the project root and place the sector CSV files there.
-
-The script currently expects:
+The raw CSV files are not committed. Create `index_data/` at repo root with:
 
 - `NIFTY BANK.csv`
 - `NIFTY IT.csv`
@@ -41,14 +50,14 @@ The script currently expects:
 - `NIFTY FMCG.csv`
 - `NIFTY AUTO.csv`
 
-The script assumes each CSV contains at least these columns:
+Each file needs at least:
 
 - `Date`
 - `Close`
 
-## Required R packages
+## Run Locally
 
-Install these packages before running the script:
+Install required R packages:
 
 ```r
 install.packages(c(
@@ -65,64 +74,26 @@ install.packages(c(
 ))
 ```
 
-## How to run
-
-Open `sector_volatility_analysis.R` in RStudio or run it from an R session:
+Run:
 
 ```r
 source("sector_volatility_analysis.R")
 ```
 
-Before running:
+If files are missing, the script stops with a clear error listing missing paths.
 
-1. Create `index_data/` in the project folder.
-2. Add the required CSV files.
-3. Make sure each CSV has `Date` and `Close` columns.
+## Core Outputs
 
-The script now looks for those files relative to the project folder. If any are missing, it stops with a clear error listing the missing paths.
+The workflow generates:
 
-## Key outputs
+- Seasonality plots and tests.
+- Stationarity test table.
+- ARIMA/BIC model comparison.
+- Residual diagnostics for ARIMA/SES/Holt.
+- Rolling volatility comparison.
+- GARCH vs EGARCH comparison table.
+- EGARCH coefficient summary table.
+- Crisis-period volatility visuals and summaries.
+- Forecast accuracy table (RMSE, MAE, MAPE).
 
-Running the script produces:
-
-- Monthly seasonality plots for each sector
-- Sample spectrum plots
-- ACF and PACF plots
-- ARIMA, SES, and Holt residual diagnostics
-- Stationarity and seasonality summary tables
-- ARIMA model comparison table
-- Rolling volatility comparison plot
-- GARCH vs EGARCH BIC comparison table
-- EGARCH coefficient summary table
-- Crisis-period volatility plots and summaries
-- Forecast accuracy table using RMSE, MAE, and MAPE
-
-## Functions included
-
-Important helper functions in `sector_volatility_analysis.R`:
-
-- `analyze_index_ts()`
-- `get_roll_vol()`
-- `get_vol_bic()`
-- `fit_egarch_sector()`
-- `label_crisis_periods()`
-- `plot_crisis_vol()`
-- `crisis_summary()`
-- `forecast_egarch_rolling()`
-- `compute_realized_vol()`
-- `volatility_eval()`
-
-## Notes and current limitations
-
-- The script is written as a single exploratory workflow rather than a packaged project.
-- The raw dataset is not tracked in this repository and must be provided separately.
-- Plot labels show some encoding artifacts in a few places.
-- The first test-period return is computed within the test split, so it does not use the last training close.
-- Most plots are displayed interactively and are not automatically saved.
-
-## Possible next improvements
-
-- Convert absolute paths to relative paths.
-- Save plots and tables to an `outputs/` folder.
-- Refactor repeated plotting code into reusable functions.
-- Separate exploratory analysis from final forecasting code.
+For a no-code walkthrough of these outputs, use [RESULTS_GALLERY.md](RESULTS_GALLERY.md).
