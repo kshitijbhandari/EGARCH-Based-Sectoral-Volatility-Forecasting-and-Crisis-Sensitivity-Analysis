@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Organized Results Gallery | Sector Volatility</title>
-  <meta name="description" content="Section-wise visual gallery of generated plots for sector volatility analysis." />
+  <title>Results Gallery | Sector Volatility</title>
+  <meta name="description" content="Interactive, section-filtered results gallery for sector volatility forecasting." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet" />
@@ -14,77 +14,32 @@
   <header class="hero">
     <p class="eyebrow">GitHub Pages Results Website</p>
     <h1>Sector Volatility Results Gallery</h1>
-    <p class="subtitle">Organized by analysis stage so reviewers can understand your findings fast.</p>
+    <p class="subtitle">Click a section to show only that category of key results.</p>
   </header>
 
-  <nav class="section-nav"><a href="#seasonality">Seasonality and Return Structure</a>
-<a href="#stationarity">Stationarity and Correlation Diagnostics</a>
-<a href="#mean-models">Mean Model Residual Checks (ARIMA/SES/Holt)</a>
-<a href="#volatility">Volatility Modeling and Crisis Sensitivity</a>
-<a href="#forecasting">Forecast Evaluation</a></nav>
-
   <main class="container">
+    <section class="panel intro-panel">
+      <h2>Curated Highlights</h2>
+      <p>This is a focused gallery of the most important outputs, grouped by analysis stage. It is not every plot from the script.</p>
+      <div class="stats-row">
+        <div class="stat"><span id="visibleCount">0</span><small>plots shown</small></div>
+        <div class="stat"><span>5</span><small>analysis sections</small></div>
+        <div class="stat"><span>100%</span><small>direct images, no PDF embeds</small></div>
+      </div>
+    </section>
+
     <section class="panel">
-      <h2>How to Read This Page</h2>
-      <p>Start from Section 01 and move downward. Each block groups visuals tied to one analysis objective, from structure diagnostics to out-of-sample forecast evaluation.</p>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All Highlights</button>
+        <button class="filter-btn" data-filter="seasonality">Seasonality</button>
+        <button class="filter-btn" data-filter="diagnostics">Stationarity and Correlation</button>
+        <button class="filter-btn" data-filter="mean">Mean Model Fit</button>
+        <button class="filter-btn" data-filter="volatility">Volatility and Crisis</button>
+        <button class="filter-btn" data-filter="forecasting">Forecasting</button>
+      </div>
+      <p class="active-label" id="activeLabel">Showing: All Highlights</p>
+      <div class="plot-grid" id="gallery"></div>
     </section>
-
-    
-    <section id="seasonality" class="panel section-block">
-      <div class="panel-head">
-        <h2>01. Seasonality and Return Structure</h2>
-        <span class="count">8 plots</span>
-      </div>
-      <p class="section-desc">Month plots and spectral visuals used to identify recurring return patterns across sectors.</p>
-      <div class="plot-grid">
-        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p01.png" alt="01. Seasonality and Return Structure - Plot 01" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 01</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p02.png" alt="01. Seasonality and Return Structure - Plot 02" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 02</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p03.png" alt="01. Seasonality and Return Structure - Plot 03" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 03</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p04.png" alt="01. Seasonality and Return Structure - Plot 04" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 04</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p05.png" alt="01. Seasonality and Return Structure - Plot 05" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 05</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p06.png" alt="01. Seasonality and Return Structure - Plot 06" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 06</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p07.png" alt="01. Seasonality and Return Structure - Plot 07" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 07</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p08.png" alt="01. Seasonality and Return Structure - Plot 08" loading="lazy" /><figcaption>01. Seasonality and Return Structure - Plot 08</figcaption></figure>
-      </div>
-    </section>
-
-    <section id="stationarity" class="panel section-block">
-      <div class="panel-head">
-        <h2>02. Stationarity and Correlation Diagnostics</h2>
-        <span class="count">7 plots</span>
-      </div>
-      <p class="section-desc">ACF/PACF and related diagnostics used before mean/volatility model fitting.</p>
-      <div class="plot-grid">
-        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p09.png" alt="02. Stationarity and Correlation Diagnostics - Plot 09" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 09</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p10.png" alt="02. Stationarity and Correlation Diagnostics - Plot 10" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 10</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p11.png" alt="02. Stationarity and Correlation Diagnostics - Plot 11" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 11</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p12.png" alt="02. Stationarity and Correlation Diagnostics - Plot 12" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 12</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p13.png" alt="02. Stationarity and Correlation Diagnostics - Plot 13" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 13</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p14.png" alt="02. Stationarity and Correlation Diagnostics - Plot 14" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 14</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p15.png" alt="02. Stationarity and Correlation Diagnostics - Plot 15" loading="lazy" /><figcaption>02. Stationarity and Correlation Diagnostics - Plot 15</figcaption></figure>
-      </div>
-    </section>
-
-    <section id="mean-models" class="panel section-block">
-      <div class="panel-head">
-        <h2>03. Mean Model Residual Checks (ARIMA/SES/Holt)</h2>
-        <span class="count">18 plots</span>
-      </div>
-      <p class="section-desc">Residual time-series, autocorrelation, and distribution checks for baseline mean models.</p>
-      <div class="plot-grid">
-        <figure class="plot-item"><img src="assets/plots/rplots/rplots_p16.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 16" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 16</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p17.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 17" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 17</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p18.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 18" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 18</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p19.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 19" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 19</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p20.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 20" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 20</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p21.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 21" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 21</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p22.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 22" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 22</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p23.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 23" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 23</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p24.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 24" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 24</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots/rplots_p25.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 25" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 25</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p01.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 01" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 01</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p02.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 02" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 02</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p03.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 03" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 03</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p04.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 04" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 04</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p05.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 05" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 05</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p06.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 06" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 06</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p07.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 07" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 07</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p08.png" alt="03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 08" loading="lazy" /><figcaption>03. Mean Model Residual Checks (ARIMA/SES/Holt) - Plot 08</figcaption></figure>
-      </div>
-    </section>
-
-    <section id="volatility" class="panel section-block">
-      <div class="panel-head">
-        <h2>04. Volatility Modeling and Crisis Sensitivity</h2>
-        <span class="count">7 plots</span>
-      </div>
-      <p class="section-desc">Rolling volatility, GARCH/EGARCH behavior, and crisis-regime comparisons across sectors.</p>
-      <div class="plot-grid">
-        <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p09.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 09" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 09</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p10.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 10" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 10</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p11.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 11" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 11</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p12.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 12" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 12</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p13.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 13" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 13</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p14.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 14" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 14</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p15.png" alt="04. Volatility Modeling and Crisis Sensitivity - Plot 15" loading="lazy" /><figcaption>04. Volatility Modeling and Crisis Sensitivity - Plot 15</figcaption></figure>
-      </div>
-    </section>
-
-    <section id="forecasting" class="panel section-block">
-      <div class="panel-head">
-        <h2>05. Forecast Evaluation</h2>
-        <span class="count">4 plots</span>
-      </div>
-      <p class="section-desc">Out-of-sample volatility forecast comparison and consolidated performance visuals.</p>
-      <div class="plot-grid">
-        <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p16.png" alt="05. Forecast Evaluation - Plot 16" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 16</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p17.png" alt="05. Forecast Evaluation - Plot 17" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 17</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p18.png" alt="05. Forecast Evaluation - Plot 18" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 18</figcaption></figure> <figure class="plot-item"><img src="assets/plots/rplots1/rplots1_p19.png" alt="05. Forecast Evaluation - Plot 19" loading="lazy" /><figcaption>05. Forecast Evaluation - Plot 19</figcaption></figure>
-      </div>
-    </section>
-
   </main>
 
   <div id="lightbox" class="lightbox" aria-hidden="true">
@@ -93,27 +48,102 @@
   </div>
 
   <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const closeLightbox = document.getElementById('closeLightbox');
+    const galleryData = [
+      { category: "seasonality", src: "assets/plots/rplots/rplots_p01.png", title: "Month Plot Overview", caption: "Seasonality profile across sectors" },
+      { category: "seasonality", src: "assets/plots/rplots/rplots_p03.png", title: "Monthly Return Pattern", caption: "Comparative monthly behavior" },
+      { category: "seasonality", src: "assets/plots/rplots/rplots_p05.png", title: "Spectral Structure", caption: "Frequency-domain seasonality signal" },
+      { category: "seasonality", src: "assets/plots/rplots/rplots_p08.png", title: "Seasonality Cross-check", caption: "End-of-block seasonal consistency view" },
 
-    document.querySelectorAll('.plot-item img').forEach((img) => {
-      img.addEventListener('click', () => {
-        lightboxImage.src = img.src;
-        lightbox.classList.add('open');
-        lightbox.setAttribute('aria-hidden', 'false');
-      });
-    });
+      { category: "diagnostics", src: "assets/plots/rplots/rplots_p09.png", title: "ACF Diagnostics I", caption: "Serial dependence check before model selection" },
+      { category: "diagnostics", src: "assets/plots/rplots/rplots_p10.png", title: "ACF Diagnostics II", caption: "Cross-sector autocorrelation behavior" },
+      { category: "diagnostics", src: "assets/plots/rplots/rplots_p12.png", title: "PACF Diagnostics", caption: "Lag structure cues for mean models" },
+      { category: "diagnostics", src: "assets/plots/rplots/rplots_p15.png", title: "Correlation Stability", caption: "Final correlation sanity check" },
 
-    function closeViewer() {
-      lightbox.classList.remove('open');
-      lightbox.setAttribute('aria-hidden', 'true');
-      lightboxImage.src = '';
+      { category: "mean", src: "assets/plots/rplots/rplots_p16.png", title: "ARIMA Residuals", caption: "Residual behavior after ARIMA fit" },
+      { category: "mean", src: "assets/plots/rplots/rplots_p18.png", title: "Residual Distribution", caption: "Distributional check for baseline adequacy" },
+      { category: "mean", src: "assets/plots/rplots/rplots_p20.png", title: "SES/Holt Residual View", caption: "Smoothing-model residual comparison" },
+      { category: "mean", src: "assets/plots/rplots1/rplots1_p03.png", title: "Residual ACF Follow-up", caption: "Whiteness and leftover structure" },
+
+      { category: "volatility", src: "assets/plots/rplots1/rplots1_p09.png", title: "Rolling Volatility", caption: "Cross-sector volatility clustering" },
+      { category: "volatility", src: "assets/plots/rplots1/rplots1_p11.png", title: "GARCH-EGARCH Behavior", caption: "Comparative volatility dynamics" },
+      { category: "volatility", src: "assets/plots/rplots1/rplots1_p13.png", title: "Crisis Volatility Profile", caption: "Stress-period behavior by sector" },
+      { category: "volatility", src: "assets/plots/rplots1/rplots1_p14.png", title: "Crisis Comparison", caption: "Relative sector sensitivity under crisis windows" },
+
+      { category: "forecasting", src: "assets/plots/rplots1/rplots1_p15.png", title: "Forecast Setup", caption: "Transition into forecast evaluation stage" },
+      { category: "forecasting", src: "assets/plots/rplots1/rplots1_p16.png", title: "Forecast Plot 1", caption: "One-step volatility forecast comparison" },
+      { category: "forecasting", src: "assets/plots/rplots1/rplots1_p17.png", title: "Forecast Plot 2", caption: "Model vs realized volatility" },
+      { category: "forecasting", src: "assets/plots/rplots1/rplots1_p18.png", title: "Forecast Plot 3", caption: "Forecast quality under changing regimes" },
+      { category: "forecasting", src: "assets/plots/rplots1/rplots1_p19.png", title: "Forecast Plot 4", caption: "Final forecast performance visual" }
+    ];
+
+    const filterNames = {
+      all: "All Highlights",
+      seasonality: "Seasonality",
+      diagnostics: "Stationarity and Correlation",
+      mean: "Mean Model Fit",
+      volatility: "Volatility and Crisis",
+      forecasting: "Forecasting"
+    };
+
+    const gallery = document.getElementById("gallery");
+    const activeLabel = document.getElementById("activeLabel");
+    const visibleCount = document.getElementById("visibleCount");
+
+    function renderGallery(filter) {
+      const items = filter === "all" ? galleryData : galleryData.filter((x) => x.category === filter);
+      gallery.innerHTML = items.map((item) => `
+        <figure class="plot-item">
+          <img src="${item.src}" alt="${item.title}" loading="lazy" />
+          <figcaption>
+            <strong>${item.title}</strong>
+            <span>${item.caption}</span>
+          </figcaption>
+        </figure>
+      `).join("");
+
+      activeLabel.textContent = `Showing: ${filterNames[filter]}`;
+      visibleCount.textContent = items.length;
+      bindLightbox();
     }
 
-    closeLightbox.addEventListener('click', closeViewer);
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeViewer(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeViewer(); });
+    function setActiveButton(target) {
+      document.querySelectorAll(".filter-btn").forEach((btn) => btn.classList.remove("active"));
+      target.classList.add("active");
+    }
+
+    document.getElementById("filterBar").addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      const filter = btn.dataset.filter;
+      setActiveButton(btn);
+      renderGallery(filter);
+    });
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const closeLightbox = document.getElementById("closeLightbox");
+
+    function bindLightbox() {
+      document.querySelectorAll(".plot-item img").forEach((img) => {
+        img.addEventListener("click", () => {
+          lightboxImage.src = img.src;
+          lightbox.classList.add("open");
+          lightbox.setAttribute("aria-hidden", "false");
+        });
+      });
+    }
+
+    function closeViewer() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+    }
+
+    closeLightbox.addEventListener("click", closeViewer);
+    lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeViewer(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeViewer(); });
+
+    renderGallery("all");
   </script>
 </body>
 </html>
